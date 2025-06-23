@@ -21,12 +21,13 @@ pipeline {
 
     stage('Build Docker Images') {
       steps {
-         script {
-          withCredentials([string(credentialsId: 'DIOCHAT_BASE_URL', variable: 'DIOCHAT_BASE_URL')]) {
-            sh "docker build -t ${REGISTRY}/ollama-frontend:latest ./frontend \\
-                --build-arg VITE_API_BASE_URL=${DIOCHAT_BASE_URL}"
+        script {
+            sh """
+              docker build -t ${REGISTRY}/ollama-frontend:latest ./frontend \\
+                  --build-arg VITE_API_BASE_URL=${DIOCHAT_BASE_URL}
+            """
           }
-           
+
           sh "docker build -t ${REGISTRY}/ollama-backend:latest ./backend"
         }
       }
